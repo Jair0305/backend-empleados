@@ -7,6 +7,14 @@ const empleadoModel = {
     getEmpleados : async () => {
         return db.collection('empleados').get();
     },
+    getEmpleadoByCorreo : async (correo) => {
+        const mail = db.collection('empleados').where('correo', '==', correo).get();
+
+        if(mail.empty) {
+            return null;
+        }
+        return mail.docs[0];
+    },
     createEmpleado : async (empleado) => {
         return db.collection('empleados').add(empleado);
     },

@@ -8,10 +8,10 @@ const empleadoController = {
             const empleado = req.body;
             empleado.contrasena = authService.hashPassword(empleado.contrasena);
             const created = await empleadoRepository.createEmpleado(empleado);
+            const id = created.id;
             res.status(201).json({
                 success: true,
-                message: "Empleado creado",
-                data: created
+                id
             });
         }catch (error) {
             res.status(500).json({
@@ -24,7 +24,7 @@ const empleadoController = {
     loginEmpleado: async (req, res) => {
         try {
             const {correo, contrasena} = req.body;
-            const empleado = await empleadoRepository.getEmpleadoByEmail(correo);
+            const empleado = await empleadoRepository.getEmpleadoByCorreo(correo);
             if(!empleado) {
                 res.status(404).json({
                     success: false,
